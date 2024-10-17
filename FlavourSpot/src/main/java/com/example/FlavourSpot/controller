@@ -1,0 +1,199 @@
+// src/main/java/com/example/flavourspot/controller/UsuarioController.java
+
+package com.example.flavourspot.controller;
+
+import com.example.flavourspot.model.Usuario;
+import com.example.flavourspot.service.UsuarioService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import java.util.List;
+import java.util.Optional;
+
+@RestController
+@RequestMapping("/api/usuarios")
+public class UsuarioController {
+    
+    @Autowired
+    private UsuarioService usuarioService;
+    
+    // Crear un nuevo usuario
+    @PostMapping
+    public ResponseEntity<Usuario> crearUsuario(@RequestBody Usuario usuario) {
+        Usuario nuevoUsuario = usuarioService.crearUsuario(usuario);
+        return ResponseEntity.ok(nuevoUsuario);
+    }
+    
+    // Obtener todos los usuarios
+    @GetMapping
+    public ResponseEntity<List<Usuario>> listarUsuarios() {
+        List<Usuario> usuarios = usuarioService.listarUsuarios();
+        return ResponseEntity.ok(usuarios);
+    }
+    
+    // Obtener un usuario por ID
+    @GetMapping("/{id}")
+    public ResponseEntity<Usuario> obtenerUsuarioPorId(@PathVariable Long id) {
+        Optional<Usuario> usuario = usuarioService.obtenerUsuarioPorId(id);
+        return usuario.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+    }
+    
+    // Actualizar un usuario
+    @PutMapping("/{id}")
+    public ResponseEntity<Usuario> actualizarUsuario(@PathVariable Long id, @RequestBody Usuario usuarioDetalles) {
+        try {
+            Usuario actualizado = usuarioService.actualizarUsuario(id, usuarioDetalles);
+            return ResponseEntity.ok(actualizado);
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+    
+    // Eliminar un usuario
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> eliminarUsuario(@PathVariable Long id) {
+        try {
+            usuarioService.eliminarUsuario(id);
+            return ResponseEntity.noContent().build();
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+}
+
+
+
+
+
+
+// src/main/java/com/example/flavourspot/controller/RecetaController.java
+
+package com.example.flavourspot.controller;
+
+import com.example.flavourspot.model.Receta;
+import com.example.flavourspot.service.RecetaService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import java.util.List;
+import java.util.Optional;
+
+@RestController
+@RequestMapping("/api/recetas")
+public class RecetaController {
+    
+    @Autowired
+    private RecetaService recetaService;
+    
+    // Crear una nueva receta
+    @PostMapping
+    public ResponseEntity<Receta> crearReceta(@RequestBody Receta receta) {
+        Receta nuevaReceta = recetaService.crearReceta(receta);
+        return ResponseEntity.ok(nuevaReceta);
+    }
+    
+    // Obtener todas las recetas
+    @GetMapping
+    public ResponseEntity<List<Receta>> listarRecetas() {
+        List<Receta> recetas = recetaService.listarRecetas();
+        return ResponseEntity.ok(recetas);
+    }
+    
+    // Obtener una receta por ID
+    @GetMapping("/{id}")
+    public ResponseEntity<Receta> obtenerRecetaPorId(@PathVariable Long id) {
+        Optional<Receta> receta = recetaService.obtenerRecetaPorId(id);
+        return receta.map(ResponseEntity::ok)
+                     .orElse(ResponseEntity.notFound().build());
+    }
+    
+    // Actualizar una receta
+    @PutMapping("/{id}")
+    public ResponseEntity<Receta> actualizarReceta(@PathVariable Long id, @RequestBody Receta recetaDetalles) {
+        try {
+            Receta actualizada = recetaService.actualizarReceta(id, recetaDetalles);
+            return ResponseEntity.ok(actualizada);
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+    
+    // Eliminar una receta
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> eliminarReceta(@PathVariable Long id) {
+        try {
+            recetaService.eliminarReceta(id);
+            return ResponseEntity.noContent().build();
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+}
+
+
+
+
+
+// src/main/java/com/example/flavourspot/controller/IngredienteController.java
+
+package com.example.flavourspot.controller;
+
+import com.example.flavourspot.model.Ingrediente;
+import com.example.flavourspot.service.IngredienteService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import java.util.List;
+import java.util.Optional;
+
+@RestController
+@RequestMapping("/api/ingredientes")
+public class IngredienteController {
+    
+    @Autowired
+    private IngredienteService ingredienteService;
+    
+    // Crear un nuevo ingrediente
+    @PostMapping
+    public ResponseEntity<Ingrediente> crearIngrediente(@RequestBody Ingrediente ingrediente) {
+        Ingrediente nuevoIngrediente = ingredienteService.crearIngrediente(ingrediente);
+        return ResponseEntity.ok(nuevoIngrediente);
+    }
+    
+    // Obtener todos los ingredientes
+    @GetMapping
+    public ResponseEntity<List<Ingrediente>> listarIngredientes() {
+        List<Ingrediente> ingredientes = ingredienteService.listarIngredientes();
+        return ResponseEntity.ok(ingredientes);
+    }
+    
+    // Obtener un ingrediente por ID
+    @GetMapping("/{id}")
+    public ResponseEntity<Ingrediente> obtenerIngredientePorId(@PathVariable Long id) {
+        Optional<Ingrediente> ingrediente = ingredienteService.obtenerIngredientePorId(id);
+        return ingrediente.map(ResponseEntity::ok)
+                          .orElse(ResponseEntity.notFound().build());
+    }
+    
+    // Actualizar un ingrediente
+    @PutMapping("/{id}")
+    public ResponseEntity<Ingrediente> actualizarIngrediente(@PathVariable Long id, @RequestBody Ingrediente ingredienteDetalles) {
+        try {
+            Ingrediente actualizado = ingredienteService.actualizarIngrediente(id, ingredienteDetalles);
+            return ResponseEntity.ok(actualizado);
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+    
+    // Eliminar un ingrediente
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> eliminarIngrediente(@PathVariable Long id) {
+        try {
+            ingredienteService.eliminarIngrediente(id);
+            return ResponseEntity.noContent().build();
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+}

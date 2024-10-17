@@ -1,0 +1,214 @@
+// src/main/java/com/example/flavourspot/service/UsuarioService.java
+
+package com.example.flavourspot.service;
+
+import com.example.flavourspot.model.Usuario;
+import java.util.List;
+import java.util.Optional;
+
+public interface UsuarioService {
+    Usuario crearUsuario(Usuario usuario);
+    Optional<Usuario> obtenerUsuarioPorId(Long id);
+    List<Usuario> listarUsuarios();
+    Usuario actualizarUsuario(Long id, Usuario usuario);
+    void eliminarUsuario(Long id);
+}
+
+// src/main/java/com/example/flavourspot/service/impl/UsuarioServiceImpl.java
+
+package com.example.flavourspot.service.impl;
+
+import com.example.flavourspot.model.Usuario;
+import com.example.flavourspot.repository.UsuarioRepository;
+import com.example.flavourspot.service.UsuarioService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import java.util.List;
+import java.util.Optional;
+
+@Service
+public class UsuarioServiceImpl implements UsuarioService {
+    
+    @Autowired
+    private UsuarioRepository usuarioRepository;
+    
+    @Override
+    public Usuario crearUsuario(Usuario usuario) {
+        return usuarioRepository.save(usuario);
+    }
+    
+    @Override
+    public Optional<Usuario> obtenerUsuarioPorId(Long id) {
+        return usuarioRepository.findById(id);
+    }
+    
+    @Override
+    public List<Usuario> listarUsuarios() {
+        return usuarioRepository.findAll();
+    }
+    
+    @Override
+    public Usuario actualizarUsuario(Long id, Usuario usuarioDetalles) {
+        Usuario usuario = usuarioRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Usuario no encontrado con id " + id));
+        
+        usuario.setNombre(usuarioDetalles.getNombre());
+        usuario.setEmail(usuarioDetalles.getEmail());
+        usuario.setContraseña(usuarioDetalles.getContraseña());
+        // No actualizar fechaCreacion
+        
+        return usuarioRepository.save(usuario);
+    }
+    
+    @Override
+    public void eliminarUsuario(Long id) {
+        Usuario usuario = usuarioRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Usuario no encontrado con id " + id));
+        usuarioRepository.delete(usuario);
+    }
+}
+///////////////////////////////
+
+
+//Recetas
+
+
+
+package com.example.flavourspot.service;
+
+import com.example.flavourspot.model.Receta;
+import java.util.List;
+import java.util.Optional;
+
+public interface RecetaService {
+    Receta crearReceta(Receta receta);
+    Optional<Receta> obtenerRecetaPorId(Long id);
+    List<Receta> listarRecetas();
+    Receta actualizarReceta(Long id, Receta recetaDetalles);
+    void eliminarReceta(Long id);
+}
+
+// src/main/java/com/example/flavourspot/service/impl/RecetaServiceImpl.java
+
+package com.example.flavourspot.service.impl;
+
+import com.example.flavourspot.model.Receta;
+import com.example.flavourspot.repository.RecetaRepository;
+import com.example.flavourspot.service.RecetaService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import java.util.List;
+import java.util.Optional;
+
+@Service
+public class RecetaServiceImpl implements RecetaService {
+    
+    @Autowired
+    private RecetaRepository recetaRepository;
+    
+    @Override
+    public Receta crearReceta(Receta receta) {
+        return recetaRepository.save(receta);
+    }
+    
+    @Override
+    public Optional<Receta> obtenerRecetaPorId(Long id) {
+        return recetaRepository.findById(id);
+    }
+    
+    @Override
+    public List<Receta> listarRecetas() {
+        return recetaRepository.findAll();
+    }
+    
+    @Override
+    public Receta actualizarReceta(Long id, Receta recetaDetalles) {
+        Receta receta = recetaRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Receta no encontrada con id " + id));
+        
+        receta.setTitulo(recetaDetalles.getTitulo());
+        receta.setDescripcion(recetaDetalles.getDescripcion());
+        receta.setUsuario(recetaDetalles.getUsuario());
+        receta.setIngredientes(recetaDetalles.getIngredientes());
+        // No actualizar fechaCreacion
+        
+        return recetaRepository.save(receta);
+    }
+    
+    @Override
+    public void eliminarReceta(Long id) {
+        Receta receta = recetaRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Receta no encontrada con id " + id));
+        recetaRepository.delete(receta);
+    }
+}
+//////////////////////////////////////////
+
+// src/main/java/com/example/flavourspot/service/IngredienteService.java
+
+package com.example.flavourspot.service;
+
+import com.example.flavourspot.model.Ingrediente;
+import java.util.List;
+import java.util.Optional;
+
+public interface IngredienteService {
+    Ingrediente crearIngrediente(Ingrediente ingrediente);
+    Optional<Ingrediente> obtenerIngredientePorId(Long id);
+    List<Ingrediente> listarIngredientes();
+    Ingrediente actualizarIngrediente(Long id, Ingrediente ingredienteDetalles);
+    void eliminarIngrediente(Long id);
+}
+
+
+// src/main/java/com/example/flavourspot/service/impl/IngredienteServiceImpl.java
+
+package com.example.flavourspot.service.impl;
+
+import com.example.flavourspot.model.Ingrediente;
+import com.example.flavourspot.repository.IngredienteRepository;
+import com.example.flavourspot.service.IngredienteService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import java.util.List;
+import java.util.Optional;
+
+@Service
+public class IngredienteServiceImpl implements IngredienteService {
+    
+    @Autowired
+    private IngredienteRepository ingredienteRepository;
+    
+    @Override
+    public Ingrediente crearIngrediente(Ingrediente ingrediente) {
+        return ingredienteRepository.save(ingrediente);
+    }
+    
+    @Override
+    public Optional<Ingrediente> obtenerIngredientePorId(Long id) {
+        return ingredienteRepository.findById(id);
+    }
+    
+    @Override
+    public List<Ingrediente> listarIngredientes() {
+        return ingredienteRepository.findAll();
+    }
+    
+    @Override
+    public Ingrediente actualizarIngrediente(Long id, Ingrediente ingredienteDetalles) {
+        Ingrediente ingrediente = ingredienteRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Ingrediente no encontrado con id " + id));
+        
+        ingrediente.setNombre(ingredienteDetalles.getNombre());
+        // Actualizar otras propiedades si las hay
+        
+        return ingredienteRepository.save(ingrediente);
+    }
+    
+    @Override
+    public void eliminarIngrediente(Long id) {
+        Ingrediente ingrediente = ingredienteRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Ingrediente no encontrado con id " + id));
+        ingredienteRepository.delete(ingrediente);
+    }
+}

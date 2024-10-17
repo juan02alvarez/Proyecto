@@ -1,0 +1,36 @@
+
+//Usuarios
+// src/main/java/com/example/flavourspot/repository/UsuarioRepository.java
+
+package com.example.flavourspot.repository;
+
+import com.example.flavourspot.model.Usuario;
+import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.Optional;
+
+public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
+    Optional<Usuario> findByEmail(String email);
+}
+
+// Recetas
+// src/main/java/com/example/flavourspot/repository/RecetaRepository.java
+
+
+import com.example.flavourspot.model.Receta;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface RecetaRepository extends JpaRepository<Receta, Long> {
+}
+
+
+//Ingredientes
+// src/main/java/com/example/flavourspot/repository/IngredienteRepository.java
+
+
+import com.example.flavourspot.model.Ingrediente;
+import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.Optional;
+
+public interface IngredienteRepository extends JpaRepository<Ingrediente, Long> {
+    Optional<Ingrediente> findByNombre(String nombre);
+}

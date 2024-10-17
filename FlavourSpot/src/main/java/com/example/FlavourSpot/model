@@ -1,0 +1,75 @@
+// src/main/java/com/example/flavourspot/model/Usuario.java
+
+package com.example.flavourspot.model;
+
+import lombok.*;
+import javax.persistence.*;
+import java.time.LocalDateTime;
+import java.util.Set;
+
+@Entity
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class Usuario {
+    
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long idUsuario;
+    
+    
+    @Column(nullable = false, length = 100)
+    private String nombre;
+    
+    @Column(nullable = false, unique = true, length = 100)
+    private String email;
+    
+    @Column(nullable = false, length = 25)
+    private String contraseña;
+    
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Receta> recetas;
+}
+// src/main/java/com/example/flavourspot/model/Receta.java
+public class Receta {
+    
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long idReceta;
+    
+    @Column(nullable = false, length = 100)
+    private String titulo;
+    
+    @Column(columnDefinition = "TEXT")
+    private String descripcion;
+    
+    @ManyToOne
+    @JoinColumn(name = "id_usuario", nullable = false)
+    private Usuario usuario;
+    
+    @ManyToMany
+    @JoinTable(
+        name = "recetas_ingredientes",
+        joinColumns = @JoinColumn(name = "id_receta"),
+        inverseJoinColumns = @JoinColumn(name = "id_ingrediente")
+    )
+    private Set<Ingrediente> ingredientes;
+}
+
+// src/main/java/com/example/flavourspot/model/Ingrediente.java
+
+package com.example.flavourspot.model;
+
+public class Ingrediente {
+    
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long idIngrediente;
+    
+    @Column(nullable = false, unique = true, length = 100)
+    private String nombre;
+    
+    @ManyToMany(mappedBy = "ingredientes")
+    private Set<Receta> recetas;
+}
